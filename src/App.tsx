@@ -1,4 +1,20 @@
 
-export default function App(){
-  return <h1>Need lunch soon!</h1>
+export default function App() {
+    const name: string = 'Connor Rubattino';
+    const isLoggedIn: boolean = true;
+
+    const posts: { id: number, title: string }[] = [
+        {id: 1, title: 'Happy Monday'},
+        {id: 2, title: 'React Rules!'},
+        {id: 3, title: 'Spring has Sprung'}
+    ]
+// each child of a list must have a key prompt!!!
+
+    return (
+        <>
+            <h1>Hello World</h1>
+            <h2>{isLoggedIn ? `Welcome back ${name}` : 'please login or sign up'}</h2>
+            {posts.map( p => <h4 key={p.id}>{p.title}</h4>)}
+        </>
+    )
 }
