@@ -48,7 +48,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
             },
             body: "Post numba 2",
             dateCreated: "Tue, 14 Mar 2024 17:00:35 GMT",
-            id: 1,
+            id: 2,
             title: "Post dos"
         }
 ])
