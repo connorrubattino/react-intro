@@ -70,24 +70,24 @@ export default function App() {
         <>
             <Navigation isLoggedIn={isLoggedIn}/>
             <Container>
-            <h1>Hello World</h1>
-            <Button variant='primary' onClick={handleClick}>Click me!</Button>
-            <h2>{isLoggedIn ? `Welcome back ${name}` : 'Please login or sign up'}</h2>
-            <Row>
-                <Col xs={12} md={8}>
-                    <Form.Control value={searchTerm} placeholder='Search Posts' onChange={handleInputChange}/>
-                </Col>
-                <Col>
-                    <Form.Select onChange={handleSelectChange}>
-                        <option>Choose Sorting Option</option>
-                        <option value="idAsc">Sort By ID ASC</option>
-                        <option value="idDesc">Sort By ID DESC</option>
-                        <option value="titleAsc">Sort By Title ASC</option>
-                        <option value="titleDesc">Sort By Title DESC</option>
-                    </Form.Select>
-                </Col>
-            </Row>
-            {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <h4 key={p.id}>{p.title}</h4> )}
+                <h1>Hello World</h1>
+                <Button variant='primary' onClick={handleClick}>Click me!</Button>
+                <h2>{isLoggedIn ? `Welcome back ${name}` : 'Please login or sign up'}</h2>
+                <Row>
+                    <Col xs={12} md={8}>
+                        <Form.Control value={searchTerm} placeholder='Search Posts' onChange={handleInputChange}/>
+                    </Col>
+                    <Col>
+                        <Form.Select onChange={handleSelectChange}>
+                            <option>Choose Sorting Option</option>
+                            <option value="idAsc">Sort By ID ASC</option>
+                            <option value="idDesc">Sort By ID DESC</option>
+                            <option value="titleAsc">Sort By Title ASC</option>
+                            <option value="titleDesc">Sort By Title DESC</option>
+                        </Form.Select>
+                    </Col>
+                </Row>
+                {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <h4 key={p.id}>{p.title}</h4> )}
             </Container>
         </>
     )
