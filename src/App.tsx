@@ -3,6 +3,8 @@ import Navigation from './components/Navigation';
 import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 type Post = {
     id: number,
@@ -38,6 +40,8 @@ export default function App() {
         {id: 5, title: 'Desert Golf this weekend!'}
     ])
 
+    const [searchTerm, setSearchTerm] = useState('');
+
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         
         const sortFunctions:Sorting = {
@@ -56,6 +60,12 @@ export default function App() {
         setIsLoggedIn(!isLoggedIn)
     }
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    }
+
+
+
     return (
         <>
             <Navigation isLoggedIn={isLoggedIn}/>
@@ -63,14 +73,21 @@ export default function App() {
             <h1>Hello World</h1>
             <Button variant='primary' onClick={handleClick}>Click me!</Button>
             <h2>{isLoggedIn ? `Welcome back ${name}` : 'Please login or sign up'}</h2>
-            {<Form.Select onChange={handleSelectChange}>
-                <option>Choose Sorting Option</option>
-                <option value='idAsc'>Sort by ID ASC</option>
-                <option value='idDesc'>Sort by ID DESC</option>
-                <option value='titleAsc'>Sort by Title ASC</option>
-                <option value='titleDesc'>Sort by Title DESC</option>
-            </Form.Select>}
-            {posts.map( p => <h4 key={p.id}>{p.title}</h4>)}
+            <Row>
+                <Col xs={12} md={8}>
+                    <Form.Control value={searchTerm} placeholder='Search Posts' onChange={handleInputChange}/>
+                </Col>
+                <Col>
+                    <Form.Select onChange={handleSelectChange}>
+                        <option>Choose Sorting Option</option>
+                        <option value="idAsc">Sort By ID ASC</option>
+                        <option value="idDesc">Sort By ID DESC</option>
+                        <option value="titleAsc">Sort By Title ASC</option>
+                        <option value="titleDesc">Sort By Title DESC</option>
+                    </Form.Select>
+                </Col>
+            </Row>
+            {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <h4 key={p.id}>{p.title}</h4> )}
             </Container>
         </>
     )
