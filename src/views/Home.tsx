@@ -3,17 +3,16 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import PostCard from '../components/PostCard';
+import { PostType } from '../types';
 
-type Post = {
-    id: number,
-    title: string
-}
+
 
 type Sorting = {
-    idAsc: (a: Post, b:Post) => number,
-    idDesc: (a: Post, b:Post) => number,
-    titleAsc: (a: Post, b:Post) => number,
-    titleDesc: (a: Post, b:Post) => number,
+    idAsc: (a: PostType, b:PostType) => number,
+    idDesc: (a: PostType, b:PostType) => number,
+    titleAsc: (a: PostType, b:PostType) => number,
+    titleDesc: (a: PostType, b:PostType) => number,
 }
 
 type HomeProps = {
@@ -23,23 +22,46 @@ type HomeProps = {
 
 export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
-    const [posts, setPosts] = useState<Post[]>([
-        {id: 1, title: 'Happy Monday'},
-        {id: 2, title: 'React Rules!'},
-        {id: 3, title: 'Spring has Sprung'},
-        {id: 4, title: 'Another Post'},
-        {id: 5, title: 'Desert Golf this weekend!'}
-    ])
+    const [posts, setPosts] = useState<PostType[]>([
+        {
+            author: {
+                dateCreated: "Fri, 29 Mar 2024 16:58:44 GMT",
+                email: "cr@codingtemple.com",
+                firstName: "Connor",
+                id: 1,
+                lastName: "Rubattino",
+                username: "crubattino"
+            },
+            body: "We are alive!!!!!!",
+            dateCreated: "Fri, 29 Mar 2024 17:00:35 GMT",
+            id: 1,
+            title: "Alive"
+        },
+        {
+            author: {
+                dateCreated: "Tue, 14 Mar 2024 16:58:44 GMT",
+                email: "brians@codingtemple.com",
+                firstName: "Brian",
+                id: 2,
+                lastName: "Stanton",
+                username: "bstanton"
+            },
+            body: "Post numba 2",
+            dateCreated: "Tue, 14 Mar 2024 17:00:35 GMT",
+            id: 1,
+            title: "Post dos"
+        }
+])
 
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         
     const sortFunctions:Sorting = {
-            idAsc: (a:Post, b:Post) => a.id - b.id,
-            idDesc: (a:Post, b:Post) => b.id - a.id,
-            titleAsc: (a:Post, b:Post) => a.title > b.title ? 1 : -1,
-            titleDesc: (a:Post, b:Post) => b.title > a.title ? 1 : -1
+            idAsc: (a:PostType, b:PostType) => a.id - b.id,
+            idDesc: (a:PostType, b:PostType) => b.id - a.id,
+            titleAsc: (a:PostType, b:PostType) => a.title > b.title ? 1 : -1,
+            titleDesc: (a:PostType, b:PostType) => b.title > a.title ? 1 : -1
         }
         const func = sortFunctions[e.target.value as keyof Sorting];
         const newSortedArr = [...posts].sort(func);
@@ -70,7 +92,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
                     </Form.Select>
                 </Col>
             </Row>
-            {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <h4 key={p.id}>{p.title}</h4> )}
+            {posts.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase())).map( p => <PostCard key={p.id} post={p}/> )}
             
     </>
   )
