@@ -10,7 +10,7 @@ export default function Navigation({ isLoggedIn }: NavigationProps){
     return (
         <Navbar expand='lg' data-bs-theme='dark' bg='dark'>
             <Container fluid>
-                <Navbar.Brand href='/'>Kekambas Blog</Navbar.Brand>
+                <Navbar.Brand href='/'>Connor's Blog</Navbar.Brand>
                 <Navbar.Toggle aria-controls='nav-collapse' />
                 <Navbar.Collapse id='nav-collapse'>
                     <Nav className='me-auto'>
