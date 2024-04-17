@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -6,6 +6,7 @@ import Col from 'react-bootstrap/Col';
 import PostCard from '../components/PostCard';
 import PostForm from '../components/PostForm';
 import { PostFormDataType, PostType } from '../types';
+import { getAllPosts } from '../lib/apiWrapper';
 
 
 
@@ -25,36 +26,20 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
     const [showForm, setShowForm] = useState(false);
 
-    const [posts, setPosts] = useState<PostType[]>([
-        {
-            author: {
-                dateCreated: "Fri, 29 Mar 2024 16:58:44 GMT",
-                email: "cr@codingtemple.com",
-                firstName: "Connor",
-                id: 1,
-                lastName: "Rubattino",
-                username: "crubattino"
-            },
-            body: "We are alive!!!!!!",
-            dateCreated: "Fri, 29 Mar 2024 17:00:35 GMT",
-            id: 1,
-            title: "Alive"
-        },
-        {
-            author: {
-                dateCreated: "Tue, 14 Mar 2024 16:58:44 GMT",
-                email: "brians@codingtemple.com",
-                firstName: "Brian",
-                id: 2,
-                lastName: "Stanton",
-                username: "bstanton"
-            },
-            body: "Post numba 2",
-            dateCreated: "Tue, 14 Mar 2024 17:00:35 GMT",
-            id: 2,
-            title: "Post dos"
+    const [posts, setPosts] = useState<PostType[]>([])
+
+    useEffect(() => {
+        console.log('Hello World')
+        async function fetchData(){
+            const response = await getAllPosts();
+            if (response.data){
+                let posts = response.data;
+                setPosts(posts)
+            }
         }
-])
+
+        fetchData();
+    }, [])
 
     const [searchTerm, setSearchTerm] = useState('');
 
