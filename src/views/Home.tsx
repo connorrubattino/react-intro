@@ -69,7 +69,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
   return (
     <>
-        <h1>Hello World</h1>
+        <h1 className='text-center mt-5'>Home</h1>
             <Button variant='primary' onClick={handleClick}>Click me!</Button>
             <h2>{isLoggedIn ? `Welcome back` : 'Please login or sign up'}</h2>
             <Row>

@@ -29,4 +29,10 @@ export type UserFormDataType = {
     confirmPassword:string
 }
 
+
 export type CategoryType = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark'
+
+export type TokenType = {
+    token:string,
+    tokenExpiration:string
+}

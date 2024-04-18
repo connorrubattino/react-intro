@@ -5,6 +5,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { UserFormDataType, CategoryType } from '../types';
 import { register } from '../lib/apiWrapper';
+import { useNavigate } from 'react-router-dom';
 
 
 type SignUpProps = {
@@ -12,6 +13,8 @@ type SignUpProps = {
 }
 
 export default function SignUp({ flashMessage }: SignUpProps) {
+
+    const navigate = useNavigate();
 
     const [userFormData, setUserFormData] = useState<UserFormDataType>(
         {
@@ -41,8 +44,8 @@ export default function SignUp({ flashMessage }: SignUpProps) {
         } else {
             let newUser = response.data!
             flashMessage(`Congrats ${newUser.firstName} ${newUser.lastName} has been created with the username ${newUser.username}`, 'success')
+            navigate('/');
         }
-        
     }
 
     const disableSubmit = !/^(?=.*\d)(?=.*[a-zA-Z])(?=.*[A-Z])(?=.*[-\#\$\.\%\&\*\!\?])(?=.*[a-zA-Z]).{8,16}$/.test(userFormData.password) || userFormData.password !== userFormData.confirmPassword
