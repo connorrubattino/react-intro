@@ -7,9 +7,9 @@ import { UserFormDataType } from '../types';
 import { register } from '../lib/apiWrapper';
 
 
-type Props = {}
+type SignUpProps = {}
 
-export default function SignUp({ }: Props) {
+export default function SignUp({ }: SignUpProps) {
 
     const [userFormData, setUserFormData] = useState<UserFormDataType>(
         {

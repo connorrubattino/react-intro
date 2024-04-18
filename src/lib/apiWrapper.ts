@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { PostType, UserFormDataType, UserType } from '../types';
 
-const baseURL:string = 'https://flask-blog-api.onrender.com/'
+const baseURL:string = 'https://flask-blog-api.onrender.com'
 const userEndpoint:string = '/users'
 const postEndpoint:string = '/posts'
 
