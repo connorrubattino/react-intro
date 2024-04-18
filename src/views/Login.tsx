@@ -9,10 +9,11 @@ import { useNavigate } from 'react-router-dom';
 
 
 type LoginProps = {
-    flashMessage: (newMessage:string|undefined, newCategory:CategoryType|undefined) => void
+    flashMessage: (newMessage:string|undefined, newCategory:CategoryType|undefined) => void,
+    logUserIn: () => void,
 }
 
-export default function Login({ flashMessage }: LoginProps) {
+export default function Login({ flashMessage, logUserIn }: LoginProps) {
     const navigate = useNavigate();
 
     const [userFormData, setUserFormData] = useState<Partial<UserFormDataType>>(
@@ -39,6 +40,7 @@ export default function Login({ flashMessage }: LoginProps) {
             const tokenExp = response.data!.tokenExpiration;
             localStorage.setItem('token', token);
             localStorage.setItem('tokenExp', tokenExp);
+            logUserIn();
             flashMessage(response.data?.token, 'success');
             navigate('/')
         }

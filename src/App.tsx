@@ -20,7 +20,6 @@ export default function App() {
 
 
     useEffect(() => {
-        console.log('This is running')
         async function getLoggedInUser(){
             if (isLoggedIn){
                 const token = localStorage.getItem('token') || ''
@@ -51,16 +50,28 @@ export default function App() {
         }, 5000)
     }
 
+    const logUserIn = () => {
+        setIsLoggedIn(true)
+    }
+
+    const logUserOut = () => {
+        setIsLoggedIn(false);
+        setLoggedInUser(null);
+        localStorage.removeItem('token')
+        localStorage.removeItem('tokenExp')
+        flashMessage('You have been logged out', 'dark')
+    }
+
 
     return (
         <>
-            <Navigation isLoggedIn={isLoggedIn}/>
+            <Navigation isLoggedIn={isLoggedIn} logUserOut={logUserOut}/>
             <Container>
                 {message && <AlertMessage message={message} category={category} flashMessage={flashMessage} />}
                 <Routes>
                     <Route path='/' element={<Home isLoggedIn={isLoggedIn} currentUser={loggedInUser}/>}/>
                     <Route path='/signup' element={<SignUp flashMessage={flashMessage} />} />
-                    <Route path='/login' element={<Login flashMessage={flashMessage} /> } />
+                    <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn} /> } />
                 </Routes>
             </Container>
         </>

@@ -67,9 +67,10 @@ export default function Home({isLoggedIn, currentUser}: HomeProps) {
     }
 
 
+
   return (
     <>
-        <h1 className="text-center m-5">{isLoggedIn ? `Hello ${currentUser?.firstName}!` : 'Welcome to the Blog'}</h1>
+        <h1 className="text-center m-5">{isLoggedIn && currentUser ? `Hello ${currentUser?.firstName}!` : 'Welcome to the Blog'}</h1>
         <Row>
             <Col xs={12} md={6}>
                 <Form.Control value={searchTerm} placeholder='Search Posts' onChange={handleInputChange}/>
