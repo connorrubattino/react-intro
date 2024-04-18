@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PostType, TokenType, UserFormDataType, UserType } from '../types';
+import { PostType, TokenType, UserFormDataType, UserType, PostFormDataType } from '../types';
 
 const baseURL:string = 'https://flask-blog-api.onrender.com'
 // const baseURL:string = 'https://kekambas-142-flask-blog-api.onrender.com'
@@ -99,10 +99,28 @@ async function getAllPosts(): Promise<APIResponse<PostType[]>> {
 }
 
 
+async function createPost(token:string, postData:PostFormDataType): Promise<APIResponse<PostType>> {
+    let data;
+    let error;
+    try{
+        const response = await apiClientTokenAuth(token).post(postEndpoint, postData)
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+}
+
+
 
 export {
     register,
     getAllPosts,
     login,
     getMe,
+    createPost,
 }
