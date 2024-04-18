@@ -7,7 +7,6 @@ type PostCardProps = {
 }
 
 export default function PostCard({ post }: PostCardProps) {
-    console.log(post)
   return (
     <Card className= 'my-3' bg='primary' text='white'>
         <Card.Header>{ post.dateCreated }</Card.Header>

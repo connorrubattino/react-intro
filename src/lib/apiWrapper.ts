@@ -2,6 +2,7 @@ import axios from 'axios';
 import { PostType, TokenType, UserFormDataType, UserType } from '../types';
 
 const baseURL:string = 'https://flask-blog-api.onrender.com'
+// const baseURL:string = 'https://kekambas-142-flask-blog-api.onrender.com'
 const userEndpoint:string = '/users'
 const postEndpoint:string = '/posts'
 const tokenEndpoint:string = '/token'
@@ -15,6 +16,13 @@ const apiClientBasicAuth = (username:string, password:string) => axios.create({
     baseURL: baseURL,
     headers: {
         Authorization: 'Basic ' + btoa(username + ':' + password)
+    }
+})
+
+const apiClientTokenAuth = (token:string) => axios.create({
+    baseURL: baseURL,
+    headers: {
+        Authorization: 'Bearer ' + token
     }
 })
 
@@ -57,6 +65,23 @@ async function login(username:string, password:string): Promise<APIResponse<Toke
 }
 
 
+async function getMe(token:string): Promise<APIResponse<UserType>> {
+    let data;
+    let error;
+    try {
+        const response = await apiClientTokenAuth(token).get(userEndpoint + '/me')
+        data = response.data
+    } catch(err) {
+        if (axios.isAxiosError(err)){
+            error = err.response?.data.error
+        } else {
+            error = 'Something went wrong'
+        }
+    }
+    return { data, error }
+}
+
+
 async function getAllPosts(): Promise<APIResponse<PostType[]>> {
     let data;
     let error;
@@ -79,4 +104,5 @@ export {
     register,
     getAllPosts,
     login,
+    getMe,
 }
