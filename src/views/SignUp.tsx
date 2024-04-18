@@ -3,13 +3,15 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { UserFormDataType } from '../types';
+import { UserFormDataType, CategoryType } from '../types';
 import { register } from '../lib/apiWrapper';
 
 
-type SignUpProps = {}
+type SignUpProps = {
+    flashMessage: (newMessage:string|undefined, newCategory:CategoryType|undefined) => void
+}
 
-export default function SignUp({ }: SignUpProps) {
+export default function SignUp({ flashMessage }: SignUpProps) {
 
     const [userFormData, setUserFormData] = useState<UserFormDataType>(
         {
@@ -35,10 +37,10 @@ export default function SignUp({ }: SignUpProps) {
 
         let response = await register(userFormData);
         if (response.error){
-            console.error(response.error);
+            flashMessage(response.error, 'danger');
         } else {
             let newUser = response.data!
-            console.log(`Congrats ${newUser.firstName} ${newUser.lastName} has been created with the username ${newUser.username}`)
+            flashMessage(`Congrats ${newUser.firstName} ${newUser.lastName} has been created with the username ${newUser.username}`, 'success')
         }
         
     }

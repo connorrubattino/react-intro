@@ -28,8 +28,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
 
     const [posts, setPosts] = useState<PostType[]>([])
 
-    useEffect(() => {
-        console.log('Hello World')
+    useEffect(() => {     //function that takes in a function and useEffect() runs after every render
         async function fetchData(){
             const response = await getAllPosts();
             if (response.data){
@@ -39,7 +38,7 @@ export default function Home({isLoggedIn, handleClick}: HomeProps) {
         }
 
         fetchData();
-    }, [])
+    }, []) //pass dependencies into here - only run if... 
 
     const [searchTerm, setSearchTerm] = useState('');
 
