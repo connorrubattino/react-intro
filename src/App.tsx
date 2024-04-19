@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import AlertMessage from './components/AlertMessage';
 import Navigation from './components/Navigation';
 import Container from 'react-bootstrap/Container';
+import EditPost from './views/EditPost';
 import Home from './views/Home';
 import Login from './views/Login';
 import SignUp from'./views/SignUp';
@@ -26,6 +27,7 @@ export default function App() {
                 const response = await getMe(token);
                 if (response.data){
                     setLoggedInUser(response.data);
+                    localStorage.setItem('currentUser', JSON.stringify(response.data))
                 } else {
                     setIsLoggedIn(false);
                     console.error(response.data);
@@ -33,8 +35,7 @@ export default function App() {
             }
         }
         getLoggedInUser()
-    }, [isLoggedIn]) //only run after a render if the isloggedin changes
-
+    }, [isLoggedIn])
 
 // each child of a list must have a key prompt!!! when in map()
 
@@ -57,8 +58,9 @@ export default function App() {
     const logUserOut = () => {
         setIsLoggedIn(false);
         setLoggedInUser(null);
-        localStorage.removeItem('token')
-        localStorage.removeItem('tokenExp')
+        localStorage.removeItem('token');
+        localStorage.removeItem('tokenExp');
+        localStorage.removeItem('currentUser');
         flashMessage('You have been logged out', 'dark')
     }
 
@@ -72,6 +74,7 @@ export default function App() {
                     <Route path='/' element={<Home isLoggedIn={isLoggedIn} currentUser={loggedInUser} flashMessage={flashMessage} />}/>
                     <Route path='/signup' element={<SignUp flashMessage={flashMessage} />} />
                     <Route path='/login' element={<Login flashMessage={flashMessage} logUserIn={logUserIn} /> } />
+                    <Route path='/edit/:postId' element={<EditPost flashMessage={flashMessage} currentUser={loggedInUser} />} />
                 </Routes>
             </Container>
         </>
