@@ -11,7 +11,7 @@ type PostCardProps = {
 export default function PostCard({ post, currentUser }: PostCardProps) {
     
     return (
-        <Card className='my-3 bg-custom' text='white'>
+        <Card className='my-3 bg-custom' text='dark'>
             <Card.Header>{ post.dateCreated }</Card.Header>
             <Card.Body>
                 <Card.Title>{ post.title }</Card.Title>
