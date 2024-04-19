@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getPostById, editPostById } from '../lib/apiWrapper';
+import { getPostById, editPostById, deletePostById } from '../lib/apiWrapper';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
+import Modal from 'react-bootstrap/Modal';
 import { CategoryType, PostFormDataType, UserType } from '../types';
 
 type EditPostProps = {
@@ -16,7 +17,10 @@ export default function EditPost({ flashMessage, currentUser }: EditPostProps) {
     const navigate = useNavigate();
 
     const [postToEditData, setPostToEditData] = useState<PostFormDataType>({title: '', body: ''})
-    
+    const [showModal, setShowModal] = useState(false);
+
+    const openModal = () => setShowModal(true);
+    const closeModal = () => setShowModal(false);
 
 
     useEffect( () => {
@@ -64,18 +68,45 @@ export default function EditPost({ flashMessage, currentUser }: EditPostProps) {
     }
 
 
+    const handleDeleteClick = async () => {
+        const token = localStorage.getItem('token') || '';
+        const response = await deletePostById(postId!, token);
+        if (response.error){
+            flashMessage(response.error, 'danger')
+        } else {
+            flashMessage(response.data!, 'primary')
+            navigate('/')
+        }
+    }
+
+
     return (
-        <Card className='my-3'>
-            <Card.Body>
-                <h3 className="text-center">Edit Post</h3>
-                <Form onSubmit={handleFormSubmit}>
-                    <Form.Label>Post Title</Form.Label>
-                    <Form.Control name='title' placeholder='Edit Post Title' value={postToEditData.title} onChange={handleInputChange} />
-                    <Form.Label>Post Body</Form.Label>
-                    <Form.Control as='textarea' name='body' placeholder='Edit Post Body' value={postToEditData.body} onChange={handleInputChange} />
-                    <Button className='mt-3 w-100' variant='info' type='submit'>Edit Post</Button>
-                </Form>
-            </Card.Body>
-        </Card>
+        <>
+            <Card className='my-3'>
+                <Card.Body>
+                    <h3 className="text-center">Edit Post</h3>
+                    <Form onSubmit={handleFormSubmit}>
+                        <Form.Label>Post Title</Form.Label>
+                        <Form.Control name='title' placeholder='Edit Post Title' value={postToEditData.title} onChange={handleInputChange} />
+                        <Form.Label>Post Body</Form.Label>
+                        <Form.Control as='textarea' name='body' placeholder='Edit Post Body' value={postToEditData.body} onChange={handleInputChange} />
+                        <Button className='mt-3 w-50' variant='info' type='submit'>Edit Post</Button>
+                        <Button className='mt-3 w-50' variant='danger' onClick={openModal}>Delete Post</Button>
+                    </Form>
+                </Card.Body>
+            </Card>
+            <Modal show={showModal} onHide={closeModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Delete {postToEditData.title}?</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to delete {postToEditData.title}? This action cannot be undone.
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant='secondary' onClick={closeModal}>Close</Button>
+                    <Button variant='danger' onClick={handleDeleteClick}>Delete Post</Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     )
 }
